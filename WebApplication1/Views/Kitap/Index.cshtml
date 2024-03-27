@@ -1,0 +1,79 @@
+﻿@using WebApplication1.Utility
+@model List<Kitap>
+@if (TempData["basarili"] != null)
+{
+    <h2 style="color: red">@TempData["basarili"]</h2>
+}
+
+<div class="container">
+
+    <div class="row pt-3 pb-4">
+        <h1>
+            Kitaplar
+        </h1>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Kitap Adı
+            </th>
+            <th>
+                Yazar
+            </th>
+            <th>
+                Tanım
+            </th>
+            <th>
+                Fiyat
+            </th>
+            <th>
+                Kitap Türü
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var Kitap in Model)
+        {
+            <tr>
+                <td>@Kitap.Id</td>
+                <td>@Kitap.KitapAdi</td>
+                <td>@Kitap.Yazar</td>
+                <td>@Kitap.Tanim</td>
+                <td>@Kitap.Fiyat</td>
+                <td>@Kitap.KitapTuru.Ad</td>
+                @if (User.IsInRole(UserRoles.Role_Admin))
+                {
+                    <td>
+
+                        <a asp-controller="Kitap" asp-action="EkleGuncelle" asp-route-id="@Kitap.Id" type="button" class="btn btn-success" style="width: 100px;">Güncelle</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Kitap" asp-action="Sil" asp-route-id="@Kitap.Id" type="button" class="btn btn-danger" style="width: 100px;">Sil</a>
+                    </td>
+                }
+
+            </tr>
+        }
+
+        </tbody>
+
+
+    </table>
+
+    @if (User.IsInRole(UserRoles.Role_Admin))
+    {
+        <div class="row pt-3 pb-2">
+            <div>
+                <a asp-controller="Kitap" asp-action="EkleGuncelle" class="btn btn-lg btn-primary" type="button">
+                    Yeni Kitap Türü Oluştur
+                </a>
+            </div>
+        </div>
+    }
+    
+</div>
